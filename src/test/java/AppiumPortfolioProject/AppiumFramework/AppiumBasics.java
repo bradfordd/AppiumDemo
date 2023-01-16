@@ -2,6 +2,7 @@
 package AppiumPortfolioProject.AppiumFramework;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -17,17 +18,15 @@ public class AppiumBasics extends BaseTest{
 	@Test
 	public void WifiSettingsName() throws MalformedURLException {
 		try {
-			AppiumDriverLocalService service = new AppiumServiceBuilder().withAppiumJS(new File("C:\\Users\\lordr\\AppData\\Roaming\\npm\\node_modules\\appium\\lib\\main.js"))
-					.withIPAddress("127.0.0.1").usingPort(4723).build();
-			service.start();
-			UiAutomator2Options options = new UiAutomator2Options();
-			options.setDeviceName("Pixel 2 API 25");
-			options.setApp("C:\\Users\\lordr\\AppiumWorkspace\\AppiumFramework\\src\\test\\java\\resources\\ApiDemos-debug.apk");
-			
-			AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
 			driver.findElement(AppiumBy.accessibilityId("Preference")).click();
-			driver.quit();
-			service.stop();
+			driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"3. Preference dependencies\"]")).click();
+			driver.findElement(By.id("android:id/checkbox")).click();
+			driver.findElement(By.xpath("(//android.widget.RelativeLayout)[2]")).click();
+			String alertTitle = driver.findElement(By.id("android:id/alertTitle")).getText();
+			Assert.assertEquals(alertTitle, "WiFi settings");
+			driver.findElement(By.id("android:id/edit")).sendKeys("Bradford Wifi");
+			driver.findElement(By.id("android:id/button1")).click();
+
 		} catch(Exception exp) {
 			System.out.println("Cause is: " + exp.getCause());
 			System.out.println("Message is: " + exp.getMessage());

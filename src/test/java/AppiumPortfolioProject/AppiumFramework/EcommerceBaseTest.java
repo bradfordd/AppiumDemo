@@ -1,7 +1,6 @@
 package AppiumPortfolioProject.AppiumFramework;
 
 import java.io.File;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -9,19 +8,17 @@ import java.time.Duration;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
-//import org.openqa.selenium.chrome.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-public class BaseTest {
+public class EcommerceBaseTest {
 	public AndroidDriver driver;
 	public AppiumDriverLocalService service;
 	
@@ -32,9 +29,8 @@ public class BaseTest {
 //		service.start();
 		UiAutomator2Options options = new UiAutomator2Options();
 		options.setDeviceName("Pixel 2 API 25");
-		options.setChromedriverExecutable("C:\\ProgramData\\Chromedriver\\chromedriver");
-		options.setApp("C:\\Users\\lordr\\AppiumWorkspace\\AppiumFramework\\src\\test\\java\\resources\\ApiDemos-debug.apk");
-		
+		options.setApp("C:\\Users\\lordr\\AppiumWorkspace\\AppiumFramework\\src\\test\\java\\resources\\General-Store.apk");
+		options.setChromedriverExecutable("C:\\ProgramData\\Chromedriver\\chromedriver.exe");
 		driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	}
@@ -42,6 +38,11 @@ public class BaseTest {
 	public void tearDown() {
 		driver.quit();
 //		service.stop();
+	}
+	
+	public Double getFormattedAmount(String amount) {
+		Double price = Double.parseDouble(amount.substring(1));
+		return price;
 	}
 	
 	public void scrollToEndAction() {
@@ -62,11 +63,6 @@ public class BaseTest {
 						"duration",2000));
 	}
 	
-	public Double getFormattedAmount(String amount) {
-		Double price = Double.parseDouble(amount.substring(1));
-		return price;
-	}
-	
 	public void swipeAction(WebElement ele, String direction) {
 		((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
 				"elementId", ((RemoteWebElement)ele).getId(),
@@ -74,6 +70,4 @@ public class BaseTest {
 				 "percent", 0.75
 				 ));
 	}
-	
-	
 }
